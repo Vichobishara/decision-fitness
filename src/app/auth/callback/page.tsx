@@ -3,9 +3,9 @@
 import { supabase } from "@/lib/supabaseClient";
 import { ensureUserProfile } from "@/lib/userProfile";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 
-export default function AuthCallbackPage() {
+function CallbackContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [status, setStatus] = useState<"exchanging" | "done" | "error">("exchanging");
@@ -51,5 +51,13 @@ export default function AuthCallbackPage() {
         {status === "error" && <p className="text-sm text-red-400">Error. Redirigiendo.</p>}
       </div>
     </div>
+  );
+}
+
+export default function Page() {
+  return (
+    <Suspense fallback={<div>Cargando...</div>}>
+      <CallbackContent />
+    </Suspense>
   );
 }

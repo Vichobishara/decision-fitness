@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { AuthProvider } from "@/contexts/AuthContext";
+import { SupabaseConnectionTest } from "@/components/SupabaseConnectionTest";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -15,7 +16,10 @@ export default function RootLayout({
   return (
     <html lang="es">
       <body className="antialiased font-sans">
-        <AuthProvider>{children}</AuthProvider>
+        <AuthProvider>
+          {process.env.NODE_ENV === "development" && <SupabaseConnectionTest />}
+          {children}
+        </AuthProvider>
       </body>
     </html>
   );
