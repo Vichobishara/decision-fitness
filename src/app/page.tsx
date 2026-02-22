@@ -28,7 +28,7 @@ import {
 import { supabase, type UserRole } from "@/lib/supabase";
 import { AnimatePresence, motion } from "framer-motion";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useCallback, useEffect, useState } from "react";
+import { Suspense, useCallback, useEffect, useState } from "react";
 
 type MetricId = "claridad" | "confianza" | "arrepentimiento";
 
@@ -725,7 +725,7 @@ function getPlaybook(
   return entry;
 }
 
-export default function Home() {
+function HomeContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const { session, profile, loading: authLoading, signOut } = useAuth();
@@ -3157,5 +3157,13 @@ export default function Home() {
         </div>
       )}
     </div>
+  );
+}
+
+export default function Page() {
+  return (
+    <Suspense fallback={<div>Cargando...</div>}>
+      <HomeContent />
+    </Suspense>
   );
 }
