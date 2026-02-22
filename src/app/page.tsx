@@ -795,6 +795,15 @@ function HomeContent() {
     }
   }, [session]);
 
+  useEffect(() => {
+    if (typeof window === "undefined" || !isDemoMode) return;
+    const prefill = sessionStorage.getItem("decision_fitness_prefill");
+    if (prefill) {
+      setDecisionText(prefill);
+      sessionStorage.removeItem("decision_fitness_prefill");
+    }
+  }, [isDemoMode]);
+
   const [decisionType, setDecisionType] = useState<DecisionType>("otra");
   const [reversibility, setReversibility] =
     useState<Reversibility>("semi");

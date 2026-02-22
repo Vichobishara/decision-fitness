@@ -8,15 +8,15 @@ const PREFILL_KEY = "decision_fitness_prefill";
 
 const CASOS_TIPICOS = [
   { label: "¿Renuncio o espero?", prefill: "¿Renuncio o espero?" },
-  { label: "¿Lo compro o es impulso?", prefill: "¿Lo compro o es impulso?" },
-  { label: "¿Lo lanzo o lo pauso?", prefill: "¿Lo lanzo o lo pauso?" },
+  { label: "¿Compro esto o es impulso?", prefill: "¿Compro esto o es impulso?" },
+  { label: "¿Cambio de proyecto o no?", prefill: "¿Cambio de proyecto o no?" },
 ] as const;
 
 function handleCasoClick(prefill: string, router: ReturnType<typeof useRouter>) {
   if (typeof window !== "undefined") {
     sessionStorage.setItem(PREFILL_KEY, prefill);
   }
-  router.push("/auth/login");
+  router.push("/?demo=1");
 }
 
 export function PublicHomePage() {
@@ -24,17 +24,8 @@ export function PublicHomePage() {
 
   return (
     <div className="min-h-screen bg-[#0c0c0e] text-zinc-100">
-      {/* Softer gradient (reduced opacity for readability) */}
-      <motion.div
-        className="pointer-events-none fixed inset-0"
-        style={{
-          background: "radial-gradient(ellipse 90% 60% at 50% -20%, rgba(63,63,70,0.22), transparent 55%)",
-        }}
-        animate={{ opacity: [0.2, 0.35, 0.2] }}
-        transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-      />
       <div
-        className="pointer-events-none fixed inset-0 opacity-[0.03]"
+        className="pointer-events-none fixed inset-0 opacity-[0.02]"
         style={{
           backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")`,
         }}
@@ -76,9 +67,9 @@ export function PublicHomePage() {
             >
               <Link
                 href="/?demo=1"
-                className="w-full rounded-2xl border border-zinc-600 bg-zinc-100 py-4 px-8 text-center text-sm font-medium text-zinc-900 transition hover:bg-white hover:shadow-lg hover:shadow-zinc-500/10 sm:w-auto"
+                className="w-full rounded-2xl border border-zinc-600 bg-zinc-100 py-4 px-8 text-center text-sm font-medium text-zinc-900 transition hover:bg-white sm:w-auto"
               >
-                Probar ahora
+                Probar sin cuenta
               </Link>
               <Link
                 href="/auth/login"
@@ -114,7 +105,7 @@ export function PublicHomePage() {
                 <span className="text-3xl font-light tabular-nums text-zinc-100">72</span>
                 <span className="text-xs text-zinc-500">Claridad</span>
               </div>
-              <p className="mt-3 rounded-lg bg-zinc-800/60 px-3 py-2 text-xs font-medium text-emerald-400/90">
+              <p className="mt-3 rounded-lg bg-zinc-800/60 px-3 py-2 text-xs font-medium text-zinc-300">
                 Actuar — tienes suficiente claridad.
               </p>
               <p className="mt-3 text-[10px] font-medium uppercase tracking-wider text-zinc-500">
@@ -122,15 +113,15 @@ export function PublicHomePage() {
               </p>
               <ul className="mt-1.5 space-y-1.5 text-xs text-zinc-400">
                 <li className="flex items-center gap-2">
-                  <span className="h-1 w-1 rounded-full bg-emerald-500/80" />
+                  <span className="h-1 w-1 rounded-full bg-zinc-500" />
                   Define la fecha límite para responder.
                 </li>
                 <li className="flex items-center gap-2">
-                  <span className="h-1 w-1 rounded-full bg-emerald-500/80" />
+                  <span className="h-1 w-1 rounded-full bg-zinc-500" />
                   Escribe qué necesitas aclarar con tu jefe actual.
                 </li>
                 <li className="flex items-center gap-2">
-                  <span className="h-1 w-1 rounded-full bg-emerald-500/80" />
+                  <span className="h-1 w-1 rounded-full bg-zinc-500" />
                   Compara oferta en papel (sueldo, crecimiento, riesgo).
                 </li>
               </ul>
@@ -138,20 +129,20 @@ export function PublicHomePage() {
           </motion.div>
         </section>
 
-        {/* Casos típicos */}
+        {/* Casos típicos — one-click demo */}
         <section className="mt-16">
-          <p className="text-center text-sm font-medium text-zinc-400 lg:text-left">
+          <p className="text-center text-sm font-medium text-zinc-500">
             Casos típicos
           </p>
-          <div className="mt-4 flex flex-wrap justify-center gap-3 lg:justify-start">
+          <div className="mt-6 grid gap-4 sm:grid-cols-3">
             {CASOS_TIPICOS.map((c) => (
               <motion.button
                 key={c.prefill}
                 type="button"
                 onClick={() => handleCasoClick(c.prefill, router)}
-                className="rounded-2xl border border-zinc-700/80 bg-zinc-800/50 px-5 py-2.5 text-sm text-zinc-300 transition hover:-translate-y-0.5 hover:border-zinc-600 hover:bg-zinc-800 hover:text-zinc-100"
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
+                className="rounded-2xl border border-zinc-800 bg-zinc-900/60 p-5 text-left text-sm font-medium text-zinc-200 transition hover:border-zinc-700 hover:bg-zinc-800/80"
+                whileHover={{ y: -2 }}
+                whileTap={{ scale: 0.99 }}
               >
                 {c.label}
               </motion.button>
@@ -234,7 +225,7 @@ export function PublicHomePage() {
           </p>
           <Link
             href="/auth/signup"
-            className="mt-6 inline-block rounded-2xl border border-zinc-600 bg-zinc-100 py-4 px-10 text-sm font-medium text-zinc-900 transition hover:bg-white hover:shadow-lg hover:shadow-zinc-500/10"
+            className="mt-6 inline-block rounded-2xl border border-zinc-600 bg-zinc-100 py-4 px-10 text-sm font-medium text-zinc-900 transition hover:bg-white"
           >
             Crear cuenta
           </Link>
